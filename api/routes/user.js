@@ -21,16 +21,9 @@ router.post("/login", (req, res, next) => {
             new_user: result,
           });
         });
-      }
-      console.log("going forward");
-      if (req.body.number !== user[0].number) {
-        console.log("req.body.number", req.body.number);
-        console.log("user[0].number", user[0].number);
-
-        return res.status(401).json({
-          msg: "user number matching fail",
-        });
       } else {
+        console.log("new user");
+
         const token = jwt.sign(
           {
             _id: user[0]._id,
@@ -65,6 +58,37 @@ router.get("/", (req, res, next) => {
     .then((result) => {
       res.status(200).json({
         userData: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
+router.put("/:_id", (req, res, next) => {
+  console.log(req.params._id);
+  User.findOneAndUpdate(
+    { _id: req.params._id },
+    {
+      $set: {
+        name: req.body.name,
+        email: req.body.email,
+        number: req.body.number,
+        role: req.body.role,
+        alternatenumber: req.body.alternatenumber,
+        permanentAddress: req.body.permanentAddress,
+        adhaarcard: req.body.adhaarcard,
+        panNumber: req.body.panNumber,
+        profilepicture: req.body.profilepicture,
+      },
+    }
+  )
+    .then((result) => {
+      res.status(200).json({
+        updated_user: result,
       });
     })
     .catch((err) => {
