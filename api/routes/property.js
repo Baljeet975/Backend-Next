@@ -89,6 +89,21 @@ router.delete("/:_id", (req, res, next) => {
     });
 });
 
+router.get("/:_id", (req, res, next) => {
+  Property.find({ _id: req.params._id })
+    .then((result) => {
+      res.status(200).json({
+        message: "Property Find",
+        result: result,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
 router.put("/:_id", (req, res, next) => {
   console.log(req.params._id);
   console.log(req.body.city, "city");
@@ -139,7 +154,6 @@ router.post("/filterdata", (req, res, next) => {
       });
   } else if (req.body.propertytype) {
     console.log("prop req", req.body);
-
     Property.find({ propertytype: req.body.propertytype })
       .then((result) => {
         res.status(200).json({
@@ -153,7 +167,6 @@ router.post("/filterdata", (req, res, next) => {
         });
       });
   } else {
-    console.log("All");
     Property.find()
       .then((result) => {
         res.status(200).json({
