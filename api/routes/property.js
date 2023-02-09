@@ -89,15 +89,32 @@ router.delete("/:_id", (req, res, next) => {
     });
 });
 
+// router.get("/:_id", (req, res, next) => {
+//   Property.find({ _id: req.params._id })
+//     .then((result) => {
+//       res.status(200).json({
+//         message: "Property Find",
+//         result: result,
+//       });
+//     })
+//     .catch((err) => {
+//       console.log("error");
+//       res.status(500).json({
+//         error: err,
+//       });
+//     });
+// });
+
 router.get("/:_id", (req, res, next) => {
+  console.log({ _id: req.params._id });
   Property.find({ _id: req.params._id })
     .then((result) => {
       res.status(200).json({
-        message: "Property Find",
-        result: result,
+        MyProp: result,
       });
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).json({
         error: err,
       });

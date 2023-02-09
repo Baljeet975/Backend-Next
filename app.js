@@ -18,6 +18,7 @@ mongoose.connection.on("connected", (connected) => {
 const userRoute = require("./api/routes/user");
 const propertyRoute = require("./api/routes/property");
 const handlePropRoute = require("./api/routes/handleprop");
+const buyerinfoRoute = require("./api/routes/buyerinfo");
 
 var publicDir = require("path").join(__dirname, "api/public");
 app.use(express.static(publicDir));
@@ -29,6 +30,7 @@ app.use(cors());
 app.use("/user", userRoute);
 app.use("/property", propertyRoute);
 app.use("/handleprop", handlePropRoute);
+app.use("/buyerinfo", buyerinfoRoute);
 
 app.use((req, res, next) => {
   res.status(404).json({
