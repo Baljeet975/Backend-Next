@@ -68,6 +68,22 @@ router.get("/", (req, res, next) => {
     });
 });
 
+router.get("/:_id", (req, res, next) => {
+  console.log({ _id: req.params._id });
+  User.find({ _id: req.params._id })
+    .then((result) => {
+      res.status(200).json({
+        MyUser: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
 router.put("/:_id", (req, res, next) => {
   console.log(req.params._id);
   User.findOneAndUpdate(
@@ -76,13 +92,8 @@ router.put("/:_id", (req, res, next) => {
       $set: {
         name: req.body.name,
         email: req.body.email,
-        number: req.body.number,
-        role: req.body.role,
-        alternatenumber: req.body.alternatenumber,
         permanentAddress: req.body.permanentAddress,
-        adhaarcard: req.body.adhaarcard,
-        panNumber: req.body.panNumber,
-        profilepicture: req.body.profilepicture,
+        fathername: req.body.fathername,
       },
     }
   )
