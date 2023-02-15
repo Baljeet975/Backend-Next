@@ -28,6 +28,15 @@ propertySchema = new mongoose.Schema(
     location: {
       type: String,
     },
+    bedroom: {
+      type: String,
+    },
+    bathroom: {
+      type: String,
+    },
+    status: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

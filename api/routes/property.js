@@ -42,6 +42,9 @@ router.post("/add", upload.single("image"), function (req, res, next) {
     location: req.body.location,
     price: req.body.price,
     image: req.file.originalname,
+    bedroom: req.body.bedroom,
+    bathroom: req.body.bathroom,
+    status: req.body.status,
   });
   property
     .save()
@@ -105,6 +108,31 @@ router.delete("/:_id", (req, res, next) => {
 //     });
 // });
 
+router.get("/beds", (req, res, next) => {
+  const firstBedString = req.body;
+  // const MyBedString = req.body;
+  var query = {
+    bedroom: {
+      $gte: firstBedString,
+      // $lte: MyBedString,
+    },
+  };
+  console.log(query);
+
+  Property.find(query)
+    .then((result) => {
+      res.status(200).json({
+        PropertybyBed: result,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: err,
+      });
+    });
+});
+
 router.get("/:_id", (req, res, next) => {
   console.log({ _id: req.params._id });
   Property.find({ _id: req.params._id })
@@ -135,6 +163,9 @@ router.put("/:_id", (req, res, next) => {
         zipcode: req.body.zipcode,
         file: req.body.file,
         price: req.body.price,
+        bedroom: req.body.bedroom,
+        bathroom: req.body.bathroom,
+        status: req.body.status,
       },
     }
   )
@@ -153,7 +184,6 @@ router.put("/:_id", (req, res, next) => {
 
 router.post("/filterdata", (req, res, next) => {
   const { propertytype } = req.body;
-  console.log("prop", propertytype);
 
   if (req.body.city) {
     console.log("city", req.body.city);
@@ -172,6 +202,62 @@ router.post("/filterdata", (req, res, next) => {
   } else if (req.body.propertytype) {
     console.log("prop req", req.body);
     Property.find({ propertytype: req.body.propertytype })
+      .then((result) => {
+        res.status(200).json({
+          propertyData: result,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          error: err,
+        });
+      });
+  } else if (req.body.status) {
+    console.log("status", req.body);
+    Property.find({ status: req.body.status })
+      .then((result) => {
+        res.status(200).json({
+          propertyData: result,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          error: err,
+        });
+      });
+  } else if (req.body.bedroom) {
+    console.log("bedrooms", req.body);
+    Property.find({ bedroom: req.body.bedroom })
+      .then((result) => {
+        res.status(200).json({
+          propertyData: result,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          error: err,
+        });
+      });
+  } else if (req.body.bathroom) {
+    console.log("bathroom", req.body);
+    Property.find({ bedroom: req.body.bathroom })
+      .then((result) => {
+        res.status(200).json({
+          propertyData: result,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          error: err,
+        });
+      });
+  } else if (req.body.price) {
+    console.log("price", req.body);
+    Property.find({ price: req.body.bathpriceroom })
       .then((result) => {
         res.status(200).json({
           propertyData: result,
